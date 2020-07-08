@@ -1,14 +1,26 @@
+import { ConnectedRouter } from 'connected-react-router';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { history, persistor, store } from 'src/redux';
+import App from 'src/app';
 import * as serviceWorker from './serviceWorker';
+import es from 'antd/lib/locale-provider/es_ES';
+import 'moment/locale/es';
+import { ConfigProvider } from 'antd';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
+      <ConnectedRouter history={history}>
+        <ConfigProvider locale={es}>
+          <App />
+        </ConfigProvider>
+      </ConnectedRouter>
+    </PersistGate>
+  </Provider>,
+  document.getElementById('root'),
 );
 
 // If you want your app to work offline and load faster, you can change
